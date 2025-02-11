@@ -183,30 +183,37 @@ appointments.forEach(appt => {
 const cancelBtns = document.querySelectorAll('.cancel-btns')
 const cards = document.querySelectorAll('.card')
 
-// console.log(cards);
 
-// console.log(cancelBtns);
+const cancelAppt =(el, arr, attr)=> {
+
+    const btnId = el.getAttribute(attr)
+
+    for (let item of arr) {
+        if (parseInt(btnId) === item.id && item.hasOwnProperty('isActive')) {
+            item.isActive = !item.isActive
+        }
+    }
+}
+
+const changeDisplay =(el)=> {
+
+    const btnId = el.getAttribute('data-btnId')
+
+    for (let card of cards) {
+        if (card.getAttribute('data-cardId') == btnId) {
+            el.innerText == 'Cancel Appointment' ? el.innerText = 'Uncancel Appointment' : el.innerText = 'Cancel appointment'
+            card.style.backgroundColor == '' ? card.style.backgroundColor = 'gray' : card.style.backgroundColor = ''
+        }
+    }
+}
 
 cancelBtns.forEach(button => {
     button.addEventListener('click', ()=> {
-        // console.log(button.getAttribute('data-btnId'))
 
-        const btnId = button.getAttribute('data-btnId')
-
-        for (let appt of appointments) {
-            if (btnId == appt.id) {
-                appt.isActive = false
-
-                console.log(appt)
-            }
-        }
-
-        for (let card of cards) {
-            if (card.getAttribute('data-cardId') == btnId) {
-                card.style.backgroundColor = 'gray'
-            }
-        }
+        cancelAppt(button, appointments, 'data-btnId')
+        changeDisplay(button)
     })
 })
+
 
 
